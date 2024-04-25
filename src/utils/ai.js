@@ -28,20 +28,49 @@ export const createYoutubeVideoStore = async (youtubeLink) => {
     new OpenAIEmbeddings()
   );
 
-  return store;
+  const vectorData = Buffer.from(JSON.stringify(store.memoryVectors));
+  const embeddingsConfig = {
+    modelName: store.embeddings.modelName,
+    batchSize: store.embeddings.batchSize,
+  };
+  const vectorStore = await prisma.vectorStore.create({
+    data: {
+      youtubeLink,
+      vectorData,
+      embeddingsConfig,
+    },
+  });
+
+  return vectorStore;
 };
 
 export const getAIResponse = async (youtubeLink, chatHistory) => {
-  const store = await createYoutubeVideoStore(youtubeLink);
+  const vectorStoreEntry = await prisma.vectorStore.findFirst({
+    where: {
+      youtubeLink: youtubeLink,
+    },
+  });
 
-  const userQuestion = chatHistory[chatHistory.length - 1];
+  const jsonString = vectorStoreEntry.vectorData.toString();
+  const memoryVectors = JSON.parse(jsonString);
 
-  const results = await store.similaritySearch(userQuestion.content, 2);
+  const embeddings = new OpenAIEmbeddings({
+    modelName: vectorStoreEntry.embeddingsConfig.modelName,
+    batchSize: vectorStoreEntry.embeddingsConfig.batchSize,
+  });
+
+  const store = new MemoryVectorStore(embeddings);
+
+  store.memoryVectors = memoryVectors;
+
+  const userQuery = chatHistory[chatHistory.length - 1].content;
+
+  const results = await store.similaritySearch(userQuery, 2);
 
   const newQuestion = {
     role: "user",
     content: `Answer the following question using the provided context. If you cannot answer the question with the context, don't lie and make up stuff. Just say you need more context.
-          Question: ${userQuestion}
+          Question: ${userQuery}
           Context: ${results.map((r) => r.pageContent).join("\n")}`,
   };
   chatHistory[chatHistory.length - 1] = newQuestion;
