@@ -1,0 +1,19 @@
+.main {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+}
+.description h2 {
+  font-size: 24px;
+  margin-top: 50px;
+}
+.description p {
+  font-size: 16px;
+}
+.upload {
+  margin: 50px 0;
+}
+.instructions {
+  display: flex;
+  justify-content: center;
+}
