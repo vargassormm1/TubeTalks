@@ -9,8 +9,10 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@ant-design/icons": "^5.3.6",
     "@langchain/openai": "^0.0.28",
     "@prisma/client": "^5.13.0",
+    "antd": "^5.16.4",
     "langchain": "^0.1.36",
     "next": "14.2.3",
     "openai": "^4.38.5",
