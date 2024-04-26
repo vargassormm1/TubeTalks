@@ -3,17 +3,54 @@
   flex-direction: column;
   text-align: center;
 }
+.description {
+  margin-top: 20%;
+}
 .description h2 {
-  font-size: 24px;
-  margin-top: 50px;
+  margin: 0;
+  font-weight: 500;
 }
-.description p {
-  font-size: 16px;
+
+.logo h1 {
+  font-size: 70px;
+  letter-spacing: -5px;
+  margin: 0;
 }
-.upload {
-  margin: 50px 0;
+.logo p {
+  font-size: 15px;
+  margin: 0;
 }
 .instructions {
   display: flex;
   justify-content: center;
+}
+
+@media (max-width: 1536px) {
+}
+@media (max-width: 1366px) {
+}
+@media (max-width: 1280px) {
+  .description {
+    margin-top: 25%;
+  }
+}
+@media (max-width: 1024px) {
+}
+@media (max-width: 768px) {
+  .description {
+    margin-top: 35%;
+  }
+}
+@media (max-width: 640px) {
+  .description {
+    margin-top: 45%;
+  }
+  .description h2 {
+    font-size: 22px;
+  }
+  .description p {
+    font-size: 14px;
+  }
+}
+@media (max-width: 475px) {
 }
