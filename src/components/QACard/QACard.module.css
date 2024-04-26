@@ -1,13 +1,15 @@
 .container {
-  border: 1px solid lightgray;
+  border: 1px solid #ce1212;
   padding: 20px 10px;
   border-radius: 10px;
   margin-bottom: 20px;
 }
 .name {
+  color: #ce1212;
   margin: 0;
   font-size: 16px;
 }
 .content {
+  color: #1b1717;
   font-size: 16px;
 }

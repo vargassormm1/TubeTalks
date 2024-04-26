@@ -5,21 +5,14 @@
 }
 .description {
   margin-top: 20%;
+  color: #1b1717;
 }
 .description h2 {
+  color: #ce1212;
   margin: 0;
   font-weight: 500;
 }
 
-.logo h1 {
-  font-size: 70px;
-  letter-spacing: -5px;
-  margin: 0;
-}
-.logo p {
-  font-size: 15px;
-  margin: 0;
-}
 .instructions {
   display: flex;
   justify-content: center;

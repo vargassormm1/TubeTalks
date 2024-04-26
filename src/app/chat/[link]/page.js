@@ -106,7 +106,12 @@ const Chat = () => {
             placeholder="Message AI Helper"
             disabled={disable}
           />
-          <Button size="large" onClick={handleSend} type="primary">
+          <Button
+            size="large"
+            onClick={handleSend}
+            type="primary"
+            style={{ backgroundColor: "#CE1212" }}
+          >
             <SendOutlined />
           </Button>
         </Space.Compact>

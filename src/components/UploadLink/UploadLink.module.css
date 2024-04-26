@@ -7,11 +7,17 @@
 .container input {
   width: 800px;
   margin: 20px 0;
-  padding: 5px;
+  padding: 10px;
   border-radius: 10px;
+  border: 1px solid #ce1212;
+  background-color: #eeebdd;
+  color: #1b1717;
 }
 .container button {
   width: 150px;
-  padding: 5px;
+  padding: 10px;
   border-radius: 10px;
+  border: 1px solid #eeebdd;
+  background-color: #ce1212;
+  color: #eeebdd;
 }

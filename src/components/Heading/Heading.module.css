@@ -10,7 +10,8 @@
   align-items: center;
   justify-content: center;
   text-align: center;
-  background-color: white;
+  background-color: #eeebdd;
+  color: #ce1212;
 }
 .container h1 {
   font-size: 70px;
@@ -21,6 +22,7 @@
   text-decoration: none;
 }
 .container p {
+  color: #1b1717;
   font-size: 15px;
   margin: 0;
 }
