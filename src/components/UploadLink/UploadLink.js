@@ -2,17 +2,43 @@
 import { useState } from "react";
 import styles from "./UploadLink.module.css";
 import { getYoutubeStore } from "@/utils/api";
-import { redirect } from "next/router";
 import { useRouter } from "next/navigation";
+import { notification, Spin } from "antd";
 
 const UploadLink = () => {
   const [link, setLink] = useState("");
+  const [loading, setLoading] = useState(false);
   const router = useRouter();
 
   const handleUpload = async () => {
-    setLink("");
-    await getYoutubeStore(encodeURIComponent(link));
-    router.push(`/chat/${encodeURIComponent(link)}`);
+    if (!link.trim()) {
+      notification.error({
+        message: "Input Error",
+        description: "Please enter a valid YouTube URL.",
+        placement: "topRight",
+      });
+      return;
+    }
+    try {
+      setLink("");
+      setLoading(true);
+      await getYoutubeStore(encodeURIComponent(link));
+      setLoading(false);
+      notification.success({
+        message: "Success",
+        description:
+          "Great! The video has been loaded and is ready for you to explore.",
+        placement: "topRight",
+      });
+      router.push(`/chat/${encodeURIComponent(link)}`);
+    } catch (error) {
+      console.error("Upload failed:", error);
+      notification.error({
+        message: "Upload Error",
+        description: "Failed to load the video. Please try again.",
+        placement: "topRight",
+      });
+    }
   };
 
   return (
@@ -22,7 +48,7 @@ const UploadLink = () => {
         value={link}
         onChange={(e) => setLink(e.target.value)}
       />
-      <button onClick={handleUpload}>Load Video</button>
+      {loading ? <Spin /> : <button onClick={handleUpload}>Load Video</button>}
     </div>
   );
 };

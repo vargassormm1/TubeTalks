@@ -5,7 +5,7 @@ import styles from "./chat.module.css";
 import { useParams } from "next/navigation";
 import { getAIResponse } from "@/utils/api";
 import QACard from "@/components/QACard/QACard";
-import { Spin, Space, Button, Input } from "antd";
+import { Spin, Space, Button, Input, notification } from "antd";
 import { SendOutlined } from "@ant-design/icons";
 
 const Chat = () => {
@@ -25,30 +25,46 @@ const Chat = () => {
 
   const handleSend = async () => {
     if (question.trim() === "") {
-      alert("Please enter a question before sending.");
+      notification.error({
+        message: "Input Error",
+        description: "Please enter a question before sending.",
+        placement: "topRight",
+      });
       return;
     }
+
     const newUserMessage = {
       role: "user",
       content: question,
     };
-    setQuestion("");
     setChatHistory((prev) => [...prev, newUserMessage]);
+    setQuestion("");
     setDisable(true);
     setLoading(true);
-    const response = await getAIResponse(link, [
-      ...chatHistory,
-      newUserMessage,
-    ]);
-    setChatHistory((prev) => [
-      ...prev,
-      {
-        role: "assistant",
-        content: response,
-      },
-    ]);
-    setLoading(false);
-    setDisable(false);
+
+    try {
+      const response = await getAIResponse(link, [
+        ...chatHistory,
+        newUserMessage,
+      ]);
+      setChatHistory((prev) => [
+        ...prev,
+        {
+          role: "assistant",
+          content: response,
+        },
+      ]);
+    } catch (error) {
+      notification.error({
+        message: "Network Error",
+        description:
+          "Failed to get response from the server. Please try again later.",
+        placement: "topRight",
+      });
+    } finally {
+      setLoading(false);
+      setDisable(false);
+    }
   };
 
   const scrollToBottom = () => {
