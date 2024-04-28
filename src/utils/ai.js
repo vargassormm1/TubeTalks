@@ -8,6 +8,7 @@ import zlib from "zlib";
 import { promisify } from "util";
 import { db } from "./db";
 import { vectorStore } from "./schema";
+import { eq } from "drizzle-orm";
 
 config({ path: ".env" });
 
@@ -60,20 +61,19 @@ export const createYoutubeVideoStore = async (youtubeLink) => {
 
 export const getAIResponse = async (youtubeLink, chatHistory) => {
   try {
-    const vectorStoreEntry = await db.query.vectorStore.findFirst({
-      youtubeLink,
-    });
+    const vectorStoreEntry = await db
+      .select()
+      .from(vectorStore)
+      .where(eq(vectorStore.youtubeLink, youtubeLink));
 
-    console.log({ vectorStoreEntry });
-
-    const buffer = Buffer.from(vectorStoreEntry.vectorData.data);
+    const buffer = Buffer.from(vectorStoreEntry[0].vectorData.data);
     const decompressedData = await gunzip(buffer);
     const dataString = decompressedData.toString("utf-8");
     const memoryVectors = JSON.parse(dataString);
 
     const embeddings = new OpenAIEmbeddings({
-      modelName: vectorStoreEntry.embeddingsConfig.modelName,
-      batchSize: vectorStoreEntry.embeddingsConfig.batchSize,
+      modelName: vectorStoreEntry[0].embeddingsConfig.modelName,
+      batchSize: vectorStoreEntry[0].embeddingsConfig.batchSize,
     });
 
     const store = new MemoryVectorStore(embeddings);
