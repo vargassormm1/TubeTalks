@@ -2,8 +2,17 @@ import { MemoryVectorStore } from "langchain/vectorstores/memory";
 import { OpenAIEmbeddings } from "@langchain/openai";
 import { YoutubeLoader } from "langchain/document_loaders/web/youtube";
 import { CharacterTextSplitter } from "langchain/text_splitter";
-import prisma from "./db";
 import OpenAI from "openai";
+import { config } from "dotenv";
+import zlib from "zlib";
+import { promisify } from "util";
+import { db } from "./db";
+import { vectorStore } from "./schema";
+
+config({ path: ".env" });
+
+const gzip = promisify(zlib.gzip);
+const gunzip = promisify(zlib.gunzip);
 
 const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
@@ -29,20 +38,20 @@ export const createYoutubeVideoStore = async (youtubeLink) => {
       new OpenAIEmbeddings()
     );
 
-    const vectorData = Buffer.from(JSON.stringify(store.memoryVectors));
+    const uncompressedData = JSON.stringify(store.memoryVectors);
+    const vectorData = await gzip(Buffer.from(uncompressedData));
     const embeddingsConfig = {
       modelName: store.embeddings.modelName,
       batchSize: store.embeddings.batchSize,
     };
-    const vectorStore = await prisma.vectorStore.create({
-      data: {
-        youtubeLink,
-        vectorData,
-        embeddingsConfig,
-      },
+
+    const memVectorStore = await db.insert(vectorStore).values({
+      youtubeLink,
+      vectorData,
+      embeddingsConfig,
     });
 
-    return vectorStore;
+    return memVectorStore;
   } catch (error) {
     console.error("Failed to create YouTube video store:", error);
     throw error;
@@ -51,13 +60,14 @@ export const createYoutubeVideoStore = async (youtubeLink) => {
 
 export const getAIResponse = async (youtubeLink, chatHistory) => {
   try {
-    const vectorStoreEntry = await prisma.vectorStore.findFirst({
-      where: {
-        youtubeLink,
-      },
+    const vectorStoreEntry = await db.query.vectorStore.findFirst({
+      youtubeLink,
     });
 
-    const memoryVectors = JSON.parse(vectorStoreEntry.vectorData.toString());
+    const buffer = Buffer.from(vectorStoreEntry.vectorData.data);
+    const decompressedData = await gunzip(buffer);
+    const dataString = decompressedData.toString("utf-8");
+    const memoryVectors = JSON.parse(dataString);
 
     const embeddings = new OpenAIEmbeddings({
       modelName: vectorStoreEntry.embeddingsConfig.modelName,
@@ -87,7 +97,6 @@ export const getAIResponse = async (youtubeLink, chatHistory) => {
     });
 
     return response.choices[0].message.content;
-    s;
   } catch (error) {
     console.error("Error getting AI response:", error);
     throw error;
