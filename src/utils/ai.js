@@ -64,6 +64,8 @@ export const getAIResponse = async (youtubeLink, chatHistory) => {
       youtubeLink,
     });
 
+    console.log({ vectorStoreEntry });
+
     const buffer = Buffer.from(vectorStoreEntry.vectorData.data);
     const decompressedData = await gunzip(buffer);
     const dataString = decompressedData.toString("utf-8");
