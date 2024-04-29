@@ -5,7 +5,7 @@ import styles from "./chat.module.css";
 import { useParams } from "next/navigation";
 import { getAIResponse } from "@/utils/api";
 import QACard from "@/components/QACard/QACard";
-import { Spin, Space, Button, Input, notification } from "antd";
+import { Spin, Space, Button, Input, message } from "antd";
 import { SendOutlined } from "@ant-design/icons";
 
 const Chat = () => {
@@ -25,11 +25,7 @@ const Chat = () => {
 
   const handleSend = async () => {
     if (question.trim() === "") {
-      notification.error({
-        message: "Input Error",
-        description: "Please enter a question before sending.",
-        placement: "topRight",
-      });
+      message.error("Please enter a question before sending.");
       return;
     }
 
@@ -55,12 +51,9 @@ const Chat = () => {
         },
       ]);
     } catch (error) {
-      notification.error({
-        message: "Network Error",
-        description:
-          "Failed to get response from the server. Please try again later.",
-        placement: "topRight",
-      });
+      message.error(
+        "Failed to get response from the server. Please try again later."
+      );
     } finally {
       setLoading(false);
       setDisable(false);

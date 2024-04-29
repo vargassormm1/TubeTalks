@@ -3,7 +3,7 @@ import { useState } from "react";
 import styles from "./UploadLink.module.css";
 import { getYoutubeStore } from "@/utils/api";
 import { useRouter } from "next/navigation";
-import { notification, Spin } from "antd";
+import { message, Spin } from "antd";
 
 const UploadLink = () => {
   const [link, setLink] = useState("");
@@ -12,11 +12,7 @@ const UploadLink = () => {
 
   const handleUpload = async () => {
     if (!link.trim()) {
-      notification.error({
-        message: "Input Error",
-        description: "Please enter a valid YouTube URL.",
-        placement: "topRight",
-      });
+      message.error("Please enter a valid YouTube URL.");
       return;
     }
     try {
@@ -24,20 +20,13 @@ const UploadLink = () => {
       setLoading(true);
       await getYoutubeStore(encodeURIComponent(link));
       setLoading(false);
-      notification.success({
-        message: "Success",
-        description:
-          "Great! The video has been loaded and is ready for you to explore.",
-        placement: "topRight",
-      });
+      message.success(
+        "Great! The video has been loaded and is ready for you to explore."
+      );
       router.push(`/chat/${encodeURIComponent(link)}`);
     } catch (error) {
       console.error("Upload failed:", error);
-      notification.error({
-        message: "Upload Error",
-        description: "Failed to load the video. Please try again.",
-        placement: "topRight",
-      });
+      message.error("Failed to load the video. Please try again.");
     }
   };
 
