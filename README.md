@@ -1,36 +1,26 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# TubeTalks
 
-## Getting Started
+TubeTalks is a web application that revolutionizes the way users explore YouTube videos. With TubeTalks, users can engage in conversations with an AI about the content of YouTube videos, gaining insights and discussing various aspects of the videos. TubeTalks allows users to interact with AI in a meaningful way, enhancing their exploration of YouTube videos. Here's how it works:
 
-First, run the development server:
+**OpenAI Integration**:
+   - TubeTalks integrates with OpenAI's powerful language model to generate responses based on user queries and video content.
+   - The AI constructs a context by combining the user's query with the content of similar videos obtained from the `MemoryVectorStore`.
+   - OpenAI's model generates a response based on the provided context and chat history, providing users with contextually relevant and insightful information.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## Features
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+- **Explore Videos**: Delve deeper into YouTube videos by engaging in interactive conversations with AI.
+- **Ask Questions**: Users can ask questions about the video content and receive insightful answers.
+- **Contextual Responses**: AI generates responses based on the user's query and the content of the video, providing contextually relevant information.
+- **Seamless Integration**: Intuitive interface for entering YouTube links and initiating conversations with AI.
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+## Technologies Used
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+- **React**: Frontend library for building the user interface.
+- **Next.js**: React framework for server-rendered React applications.
+- **Ant Design**: UI library for React with high-quality components.
+- **Node.js**: JavaScript runtime for building server-side logic.
+- **OpenAI**: API for integrating AI capabilities into the application.
+- **LangChain**: Provides tools and utilities for natural language processing and AI-related tasks.
+- **Drizzle**: Database management tool for interacting with Neon's Serverless Postgres.
+- **Neon**: Serverless Postgres service offering bottomless storage, autoscaling, and branching.
