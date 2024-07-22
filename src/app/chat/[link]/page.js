@@ -19,7 +19,7 @@ const Chat = () => {
     {
       role: "assistant",
       content:
-        "You are a helpful AI assistant. Answer questions to your best ability.",
+        "What would you like to know about the video? Feel free to ask about specific segments, topics, or anything else that piques your interest.",
     },
   ]);
 
@@ -81,7 +81,13 @@ const Chat = () => {
         {chatHistory.map((chat, id) => {
           return <QACard key={id} user={chat.role} content={chat.content} />;
         })}
-        {loading ? <Spin /> : <></>}
+        {loading ? (
+          <div className={styles.spinner}>
+            <Spin />
+          </div>
+        ) : (
+          <></>
+        )}
       </div>
       <div className={styles.chatForm}>
         <Space.Compact
