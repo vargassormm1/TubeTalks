@@ -81,7 +81,13 @@ const Chat = () => {
         {chatHistory.map((chat, id) => {
           return <QACard key={id} user={chat.role} content={chat.content} />;
         })}
-        {loading ? <Spin /> : <></>}
+        {loading ? (
+          <div className={styles.spinner}>
+            <Spin />
+          </div>
+        ) : (
+          <></>
+        )}
       </div>
       <div className={styles.chatForm}>
         <Space.Compact
