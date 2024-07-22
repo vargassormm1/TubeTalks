@@ -19,14 +19,15 @@ const UploadLink = () => {
       setLink("");
       setLoading(true);
       await getYoutubeStore(encodeURIComponent(link));
-      router.push(`/chat/${encodeURIComponent(link)}`);
-      message.success(
-        "Great! The video has been loaded and is ready for you to explore."
-      );
-      setLoading(false);
     } catch (error) {
       console.error("Upload failed:", error);
       message.error("Failed to load the video. Please try again.");
+    } finally {
+      router.push(`/chat/${encodeURIComponent(link)}`);
+      setLoading(false);
+      message.success(
+        "Great! The video has been loaded and is ready for you to explore."
+      );
     }
   };
 
