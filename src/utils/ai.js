@@ -27,6 +27,7 @@ export const createYoutubeVideoStore = async (youtubeLink) => {
       addVideoInfo: true,
     }
   );
+  console.log("Video content loaded:", videoContent); // Log the raw video content to check what is being fetched
 
   try {
     const docs = await loader.loadAndSplit(
