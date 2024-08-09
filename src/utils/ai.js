@@ -26,8 +26,6 @@ export const createYoutubeVideoStore = async (youtubeLink) => {
   });
 
   try {
-    console.log({ youtubeLink, loader });
-
     const docs = await loader.loadAndSplit(
       new CharacterTextSplitter({
         separator: " ",
@@ -36,7 +34,10 @@ export const createYoutubeVideoStore = async (youtubeLink) => {
       })
     );
 
-    console.log({ docs });
+    console.log(
+      "Video content split into documents. Number of documents:",
+      docs.length
+    );
 
     const store = await MemoryVectorStore.fromDocuments(
       docs,
