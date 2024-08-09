@@ -28,6 +28,8 @@ export const createYoutubeVideoStore = async (youtubeLink) => {
   console.log({ loader });
 
   try {
+    console.log("hello");
+
     const docs = await loader.loadAndSplit(
       new CharacterTextSplitter({
         separator: " ",
