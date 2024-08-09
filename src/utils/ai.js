@@ -36,6 +36,8 @@ export const createYoutubeVideoStore = async (youtubeLink) => {
       })
     );
 
+    console.log({ docs });
+
     const store = await MemoryVectorStore.fromDocuments(
       docs,
       new OpenAIEmbeddings()
