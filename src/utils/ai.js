@@ -20,12 +20,10 @@ const openai = new OpenAI({
 });
 
 export const createYoutubeVideoStore = async (youtubeLink) => {
-  console.log({ youtubeLink });
   const loader = YoutubeLoader.createFromUrl(youtubeLink, {
     language: "en",
     addVideoInfo: true,
   });
-  console.log({ loader });
 
   try {
     const docs = await loader.loadAndSplit(
